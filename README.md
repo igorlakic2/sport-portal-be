@@ -1,1 +1,3 @@
-# sport-portal-be
+# Project plan:
+
+-Node + MongoDB
