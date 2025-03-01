@@ -1,17 +1,17 @@
 const Category = require("../models/categoryModel");
 
 exports.getCategories = async (req, res, next) => {
-  const currentPage = req.query.page || 1;
-  const size = req.query.size || 10;
+  const currentPage = Math.max(1, Number(req.query.page) || 1);
+  const rowsPerPage = Number(req.query.rowsPerPage) || 10;
 
   const totalItems = await Category.find().countDocuments();
   const categories = await Category.find()
-    .skip((currentPage - 1) * size)
-    .limit(size);
+    .skip((currentPage - 1) * rowsPerPage)
+    .limit(rowsPerPage);
 
   res.status(200).json({
     message: "Fetched categories successfully.",
-    categories: categories,
+    data: categories,
     totalItems: totalItems,
   });
 };
@@ -28,7 +28,7 @@ exports.addCategory = async (req, res, next) => {
 
     res.status(201).json({
       message: "Category created successfully!",
-      category,
+      data: category,
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -50,7 +50,7 @@ exports.deleteCategory = async (req, res, next) => {
     }
 
     await Category.findByIdAndDelete(categoryId);
-    res.status(200).json({ message: "Deleted category.", category });
+    res.status(200).json({ message: "Deleted category.", data: category });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -71,7 +71,7 @@ exports.updateCategory = async (req, res, next) => {
 
     res.status(201).json({
       message: "Category updated successfully!",
-      category,
+      data: category,
     });
   } catch (err) {
     if (!err.statusCode) {
