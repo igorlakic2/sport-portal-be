@@ -31,8 +31,5 @@ mongoose
   .connect(
     "mongodb+srv://igor:pass1234@sport-portal-cluster.otn87.mongodb.net/portal?retryWrites=true&w=majority&appName=sport-portal-cluster"
   )
-  .then((res) => {
-    console.log("Connected to DB");
-    return app.listen(8080);
-  })
+  .then(() => app.listen(8080))
   .catch((err) => console.log(err));
