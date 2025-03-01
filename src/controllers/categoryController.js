@@ -37,3 +37,24 @@ exports.addCategory = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.deleteCategory = async (req, res, next) => {
+  try {
+    const categoryId = req.params.categoryId;
+    const category = await Category.findById(categoryId);
+
+    if (!category) {
+      const error = new Error("Could not find category.");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    await Category.findByIdAndDelete(categoryId);
+    res.status(200).json({ message: "Deleted category.", category });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
