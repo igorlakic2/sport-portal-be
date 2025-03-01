@@ -58,3 +58,25 @@ exports.deleteCategory = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.updateCategory = async (req, res, next) => {
+  try {
+    const categoryId = req.params.categoryId;
+    const name = req.body.name;
+
+    const category = await Category.findById(categoryId);
+    category.name = name;
+
+    await category.save();
+
+    res.status(201).json({
+      message: "Category updated successfully!",
+      category,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
