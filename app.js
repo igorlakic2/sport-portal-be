@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 
+const categoryRoutes = require("./src/routes/categoryRoutes");
+
 app.use(bodyParser.json()); // application/json
 
 app.use((req, res, next) => {
@@ -16,6 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/categories", categoryRoutes);
+
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode;
@@ -25,7 +29,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://igor:pass1234@sport-portal-cluster.otn87.mongodb.net/?retryWrites=true&w=majority&appName=sport-portal-cluster"
+    "mongodb+srv://igor:pass1234@sport-portal-cluster.otn87.mongodb.net/portal?retryWrites=true&w=majority&appName=sport-portal-cluster"
   )
   .then((res) => {
     console.log("Connected to DB");
