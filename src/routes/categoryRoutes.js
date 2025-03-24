@@ -6,13 +6,14 @@ const {
   deleteCategory,
   updateCategory,
 } = require("../controllers/categoryController");
+const isAuth = require("../../middleware/is-auth");
 
-router.get("/", getCategories);
+router.get("/", isAuth, getCategories);
 
-router.post("/", addCategory);
+router.post("/", isAuth, addCategory);
 
-router.delete("/:categoryId", deleteCategory);
+router.delete("/:categoryId", isAuth, deleteCategory);
 
-router.put("/:categoryId", updateCategory);
+router.put("/:categoryId", isAuth, updateCategory);
 
 module.exports = router;
